@@ -82,7 +82,27 @@
 				texture.minFilter = THREE.LinearFilter;
 				texture.format = THREE.RGBFormat;
 
-			    var material   = new THREE.MeshBasicMaterial( { map : texture } );
+			    //var material   = new THREE.MeshBasicMaterial( { map : texture } );
+
+				var material = new THREE.ShaderMaterial({
+				    uniforms: {
+				        texture: { map: texture }
+				    },
+				    vertexShader: [
+                      "varying vec2 vUV;",
+                      "void main() {",
+                      "	vUV = vec2( uv.x, 1.0 - uv.y );",
+                      "	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+                      "}"
+				    ].join("\n"),
+				    fragmentShader: [
+                      "uniform sampler2D texture;",
+                      "varying vec2 vUV;",
+                      "void main() {",
+                      " gl_FragColor = texture2D( texture, vUV  ).bgra;",
+                      "}"
+				    ].join("\n")
+				});
 
 
 
