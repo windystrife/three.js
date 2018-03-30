@@ -20480,7 +20480,8 @@
 
 		}
 
-		function updateVideoTexture( texture ) {
+		function updateVideoTexture(texture) {
+
 
 			var id = texture.id;
 			var frame = info.render.frame;
